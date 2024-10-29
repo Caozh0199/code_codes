@@ -115,6 +115,9 @@
             <if test="saleId != null">
                 sale_id = #{saleId},
             </if>
+            <if test="trackingNumber != null">
+                trackingNumber = #{trackingNumber},
+            </if>
         </set>
         where id = #{id}
     </update>

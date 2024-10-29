@@ -37,6 +37,8 @@
             <if test="coordinates != null">coordinates,</if>
             <if test="status != null">status,</if>
             <if test="shippingTime != null">shippingTime,</if>
+            <if test="longitude != null">longitude,</if>
+            <if test="latitude != null">latitude,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -46,6 +48,8 @@
             <if test="coordinates != null">#{coordinates},</if>
             <if test="status != null">#{status},</if>
             <if test="shippingTime != null">#{shippingTime},</if>
+            <if test="longitude != null">#{longitude},</if>
+            <if test="latitude != null">#{latitude},</if>
         </trim>
     </insert>
 

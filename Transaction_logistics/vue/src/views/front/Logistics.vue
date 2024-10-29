@@ -1,27 +1,22 @@
 <template >
-  <div style="margin: 50px">
+  <div style="margin-left: 100px">
     <div class="search" style="margin-left: 450px">
-      <el-input placeholder="请输入标题查询" style="width: 400px" v-model="trackingNumber"></el-input>
+      <el-input placeholder="请输入物流单号查询" style="width: 400px" v-model="trackingNumber"></el-input>
       <el-button type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
       <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
     </div>
-    <div class="table" style="width: 1100px;margin-left: 150px">
+    <div class="table" style="width: 1000px;margin-left: 200px">
       <el-table :data="tableData" stripe @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="55" align="center"></el-table-column>
-
-        <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
-        <el-table-column prop="sender" label="发货人" width="100"></el-table-column>
+        <el-table-column prop="sender" label="发货人" width="120"></el-table-column>
         <el-table-column prop="trackingNumber" label="快递单号" width="160"></el-table-column>
         <el-table-column prop="userName" label="收货人" width="180"></el-table-column>
-        <!-- <el-table-column prop="coordinates" label="经纬度坐标" width="180"></el-table-column>-->
-
         <el-table-column prop="shippingTime" label="发货时间" width="220"></el-table-column>
         <el-table-column prop="status" label="状态" width="180">
         </el-table-column>
 
         <el-table-column label="操作" width="180" align="center">
           <template v-slot="scope">
-            <el-button plain type="primary" @click="$router.push('/front/location?trackingNumber=' + trackingNumber)" size="mini">编辑</el-button>
+            <el-button plain type="primary" @click="$router.push('/front/location?trackingNumber=' + trackingNumber)" size="mini">详情</el-button>
           </template>
         </el-table-column>
       </el-table>

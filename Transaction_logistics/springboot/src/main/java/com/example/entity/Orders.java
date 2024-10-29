@@ -27,6 +27,15 @@ public class Orders implements Serializable {
     private String payTime;
     /** 下单人ID */
     private Integer userId;
+
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
+
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
+    }
+
     /** 收货地址 */
     private String address;
     /** 联系方式 */
@@ -39,6 +48,7 @@ public class Orders implements Serializable {
     private Integer saleId;
 
     private Integer goodsId;
+    private String trackingNumber;
 
     public Integer getGoodsId() {
         return goodsId;

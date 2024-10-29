@@ -1,8 +1,7 @@
 <template>
   <div style="background-color: #f8f8f8; min-height: 100vh">
     <!--头部-->
-    <div class="front-header" style="background: linear-gradient(90deg,#FFF1EB 0%,#FFFFFF 16.6%,#FFFFFF 25.92%,#ACE0F9 43.01%);
-">
+    <div class="front-header" style="background: rgba(255,255,255,0.23)">
       <a href="/front/home">
         <div class="front-header-left">
           <div class="title" style="color: #ACE0F9 ">二手交易物流管理平台</div>
@@ -59,7 +58,7 @@
       </div>
     </div>
     <!--主体-->
-    <div class="main-body" style="background: radial-gradient(circle,#FFF1EB 9.96%,#FFFFFF 28.1%,#FFFFFF 10.29%,#395C6C 100%); " >
+    <div class="main-body" style="background: radial-gradient(circle,#ffffff 9.96%,#FFFFFF 28.1%,#ffffff 10.29%,#ffffff 100%); " >
       <router-view ref="child" @update:user="updateUser" />
     </div>
 

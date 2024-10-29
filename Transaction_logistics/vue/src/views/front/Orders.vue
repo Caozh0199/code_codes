@@ -55,6 +55,8 @@
           </template>
         </el-table-column>
         <el-table-column prop="saleName" label="卖家名称"></el-table-column>
+        <el-table-column prop="trackingNumber" label="物流单号"></el-table-column>
+
         <el-table-column label="操作" align="center" width="300">
           <template v-slot="scope">
             <el-button v-if="scope.row.status === '待支付'" size="mini" type="primary" plain @click="pay(scope.row.orderNo)">支付</el-button>
