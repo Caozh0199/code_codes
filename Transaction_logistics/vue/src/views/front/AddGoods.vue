@@ -20,7 +20,7 @@
         </el-form-item>
         <el-form-item label="图片" prop="img">
           <el-upload
-              :action="'/files/upload'"
+              :action="$baseUrl + '/files/upload'"
               :headers="{ token: user.token }"
               list-type="picture"
               :on-success="handleImgSuccess"
