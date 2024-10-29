@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-    <div style="width: 500px;">
-    </div>
     <div style="flex: 1; background-color: #f8f8f8">
       <div style="height: 50px; display: flex; align-items: center; background-color: white; padding-left: 20px">
         <span style="font-size: 24px; margin-left: 5px">二手交易物流管理平台</span>
