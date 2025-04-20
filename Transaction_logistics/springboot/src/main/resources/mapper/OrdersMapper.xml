@@ -5,7 +5,7 @@
 <mapper namespace="com.example.mapper.OrdersMapper">
 
     <sql id="Base_Column_List">
-        id,goods_name,goods_img,order_no,total,time,pay_no,pay_time,user_id,address,phone,user_name,status,sale_id
+        id,goods_name,goods_img,order_no,total,time,pay_no,pay_time,user_id,address,phone,user_name,status,sale_id,logisticscompanies
     </sql>
 
     <select id="selectAll" resultType="com.example.entity.Orders">
@@ -21,6 +21,7 @@
             <if test="userId != null"> and orders.user_id = #{userId}</if>
             <if test="status != null"> and orders.status like concat('%', #{status}, '%')</if>
             <if test="saleId != null"> and orders.sale_id = #{saleId}</if>
+                            <if test="logisticscompanies != null"> and orders.logisticscompanies like concat('%', #{logisticscompanies}, '%')</if>
         </where>
         order by orders.id desc
     </select>
@@ -115,8 +116,8 @@
             <if test="saleId != null">
                 sale_id = #{saleId},
             </if>
-            <if test="trackingNumber != null">
-                trackingNumber = #{trackingNumber},
+            <if test="logisticscompanies != null">
+                logisticscompanies = #{logisticscompanies},
             </if>
         </set>
         where id = #{id}

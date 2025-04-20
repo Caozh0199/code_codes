@@ -51,7 +51,9 @@
             <el-menu-item index="/address">地址信息</el-menu-item>
             <el-menu-item index="/feedback">反馈信息</el-menu-item>
             <el-menu-item index="/comment">评论信息</el-menu-item>
+            <el-menu-item index="/ordersSend">发货管理</el-menu-item>
             <el-menu-item index="/logistics">物流信息</el-menu-item>
+            <el-menu-item index="/logisticscompanies">物流公司</el-menu-item>
 
           </el-submenu>
 

@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 /**
  * 订单信息
  */
-public class Orders implements Serializable {
+public class OrdersDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** ID */
@@ -25,33 +25,30 @@ public class Orders implements Serializable {
     private String payNo;
     /** 支付时间 */
     private String payTime;
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
     /** 下单人ID */
     private Integer userId;
-    private  int score;
 
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
+
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
+    }
 
     /** 收货地址 */
     private String address;
-
-    public String getLogisticscompanies() {
-        return logisticscompanies;
-    }
-
-    public void setLogisticscompanies(String logisticscompanies) {
-        this.logisticscompanies = logisticscompanies;
-    }
-
     /** 联系方式 */
     private String phone;
+
+    public Integer getLogisticscompaniesId() {
+        return logisticscompaniesId;
+    }
+
+    public void setLogisticscompaniesId(Integer logisticscompaniesId) {
+        this.logisticscompaniesId = logisticscompaniesId;
+    }
+
     /** 收货人名称 */
     private String userName;
     /** 订单状态 */
@@ -60,7 +57,8 @@ public class Orders implements Serializable {
     private Integer saleId;
 
     private Integer goodsId;
-    private String logisticscompanies;
+    private String trackingNumber;
+    private Integer logisticscompaniesId;
 
     public Integer getGoodsId() {
         return goodsId;

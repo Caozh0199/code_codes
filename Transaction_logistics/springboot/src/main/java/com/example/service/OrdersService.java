@@ -34,7 +34,8 @@ public class OrdersService {
     AddressService addressService;
     @Resource
     LogisticsService logisticsService;
-
+    @Resource
+    LogisticscompaniesService logisticscompaniesService;
 
     /**
      * 新增
@@ -82,24 +83,19 @@ public class OrdersService {
      * 修改
      */
     public void updateById(Orders orders) {
-        Random random = new Random();
-        int number = random.nextInt(41) + 80;
-        int numbers = random.nextInt(21) + 40;
-        String a = String.valueOf(number);
-        String b = String.valueOf(numbers);
-        a= a+".272955";
-        b=b+".705404";
-        Logistics logistics = new Logistics();
-        logistics.setSender(orders.getUser());
-        //随机生成15位的物流单号给
-        String trackingNumber = RandomUtil.randomNumbers(15);
-        logistics.setTrackingNumber(trackingNumber);
-        logistics.setStatus(orders.getStatus());
-        logistics.setShippingTime(String.valueOf(LocalDateTimeUtil.now()));
-        logistics.setLongitude(a);
-        logistics.setLatitude(b);
-        logisticsService.add(logistics);
-        orders.setTrackingNumber(trackingNumber);
+        String status = orders.getStatus();
+        if("已完成".equals(status)){
+            Logisticscompanies logisticscompanies = logisticscompaniesService.selectByName(orders.getLogisticscompanies());
+            int  score = logisticscompanies.getScore(); // 现有评分
+            int servicefrequency = logisticscompanies.getServicefrequency(); // 服务次数
+            Integer all = score * servicefrequency;
+            servicefrequency ++;
+            all = all+ orders.getScore();
+            score = all / servicefrequency;
+            logisticscompanies.setScore(score);
+            logisticscompanies.setServicefrequency(servicefrequency);
+            logisticscompaniesService.updateById(logisticscompanies);
+        }
         ordersMapper.updateById(orders);
     }
 
@@ -175,5 +171,27 @@ public class OrdersService {
             dictList.add(dict);
         }
         return dictList;
+    }
+
+    public void updateByIdSend(Orders orders) {
+        Random random = new Random();
+        int number = random.nextInt(41) + 80;
+        int numbers = random.nextInt(21) + 40;
+        String a = String.valueOf(number);
+        String b = String.valueOf(numbers);
+        a= a+".272955";
+        b=b+".705404";
+        Logistics logistics = new Logistics();
+        logistics.setSender(orders.getUser());
+        //随机生成15位的物流单号给
+        String trackingNumber = RandomUtil.randomNumbers(15);
+        logistics.setTrackingNumber(trackingNumber);
+        logistics.setStatus(orders.getStatus());
+        logistics.setShippingTime(String.valueOf(LocalDateTimeUtil.now()));
+        logistics.setLongitude(a);
+        logistics.setLatitude(b);
+        logistics.setOrderId(orders.getOrderNo());
+        logisticsService.add(logistics);
+        ordersMapper.updateById(orders);
     }
 }

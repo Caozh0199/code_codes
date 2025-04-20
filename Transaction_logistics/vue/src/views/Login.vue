@@ -21,6 +21,7 @@
               <el-select v-model="form.role" style="width: 100%">
                 <el-option label="管理员" value="ADMIN"></el-option>
                 <el-option label="用户" value="USER"></el-option>
+                <el-option label="仓库" value="WAREHOUSEADMIN"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
@@ -53,15 +54,20 @@ export default {
   methods: {
     login() {
       this.$refs['formRef'].validate((valid) => {
+        console.log(valid)
         if (valid) {
           // 验证通过
+          console.log(this.form)
           this.$request.post('/login', this.form).then(res => {
             if (res.code === '200') {
               localStorage.setItem("xm-user", JSON.stringify(res.data))  // 存储用户数据
-              if (res.data.role === 'ADMIN') {
-                this.$router.push('/home')  // 跳转主页
-              } else {
+              console.log(res.data)
+              if (res.data.role === 'USER') {
                 this.$router.push('/front/home')  // 跳转主页
+
+              } else  {
+                this.$router.push('/home')  // 跳转主页
+
               }
               this.$message.success('登录成功')
             } else {

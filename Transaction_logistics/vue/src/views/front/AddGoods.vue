@@ -14,7 +14,13 @@
           <el-input v-model="form.price" placeholder="价格"></el-input>
         </el-form-item>
         <el-form-item label="分类" prop="category">
-          <el-select v-model="form.category" style="width: 100%">
+          <!-- 修改：增加 popper-class 和 popper-append-to-body 属性 -->
+          <el-select
+              v-model="form.category"
+              style="width: 100%"
+              popper-class="custom-select-dropdown"
+              :popper-append-to-body="false"
+          >
             <el-option v-for="item in categoryList" :key="item.id" :value="item.name"></el-option>
           </el-select>
         </el-form-item>
@@ -45,12 +51,12 @@
         </div>
       </el-form>
     </div>
-
   </div>
 </template>
 
 <script>
 import E from "wangeditor"
+
 export default {
   name: "AddGoods",
   data() {
@@ -138,6 +144,30 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+/* 移除 scoped，确保样式可以作用于 el-select 的下拉框 */
+.card {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
 
+/* 自定义下拉框样式 */
+.custom-select-dropdown {
+  max-height: 200px !important; /* 设置最大高度 */
+  overflow-y: auto !important; /* 滚动条 */
+  z-index: 9999 !important; /* 确保下拉框在最上层 */
+}
+
+/* 覆盖 Element Plus 默认样式 */
+.el-select-dropdown__item {
+  padding: 0 20px !important;
+}
+
+.el-select-dropdown {
+  margin-top: 5px !important;
+  border-radius: 5px !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1) !important;
+}
 </style>

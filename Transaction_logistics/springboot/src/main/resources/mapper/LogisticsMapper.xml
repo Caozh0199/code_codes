@@ -34,7 +34,7 @@
             <if test="trackingNumber != null">trackingNumber,</if>
             <if test="sender != null">sender,</if>
             <if test="userName != null">userName,</if>
-            <if test="coordinates != null">coordinates,</if>
+            <if test="orderId != null">orderId,</if>
             <if test="status != null">status,</if>
             <if test="shippingTime != null">shippingTime,</if>
             <if test="longitude != null">longitude,</if>
@@ -45,7 +45,7 @@
             <if test="trackingNumber != null">#{trackingNumber},</if>
             <if test="sender != null">#{sender},</if>
             <if test="userName != null">#{userName},</if>
-            <if test="coordinates != null">#{coordinates},</if>
+            <if test="orderId != null">#{orderId},</if>
             <if test="status != null">#{status},</if>
             <if test="shippingTime != null">#{shippingTime},</if>
             <if test="longitude != null">#{longitude},</if>

@@ -52,6 +52,7 @@
             <el-tag type="primary" v-if="scope.row.status === '待发货'">待发货</el-tag>
             <el-tag type="info" v-if="scope.row.status === '待收货'">待收货</el-tag>
             <el-tag type="success" v-if="scope.row.status === '已完成'">已完成</el-tag>
+            <el-tag type="success" v-if="scope.row.status === '待揽收'">待揽收</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="saleName" label="卖家名称"></el-table-column>
@@ -61,8 +62,8 @@
           <template v-slot="scope">
             <el-button v-if="scope.row.status === '待支付'" size="mini" type="primary" plain @click="pay(scope.row.orderNo)">支付</el-button>
             <el-button v-if="scope.row.status === '待支付'" size="mini" type="danger" plain @click="changeStatus(scope.row, '已取消')">取消</el-button>
-            <el-button v-if="scope.row.status === '待发货' && scope.row.saleId === user.id" size="mini" type="info" plain @click="changeStatus(scope.row, '待收货')">发货</el-button>
-            <el-button v-if="scope.row.status === '待收货' && scope.row.userId === user.id" size="mini" type="primary" plain @click="changeStatus(scope.row, '已完成')">收货</el-button>
+            <el-button v-if="scope.row.status === '待发货' && scope.row.saleId === user.id" size="mini" type="info" plain @click="showDeliveryDialog(scope.row)">发货</el-button>
+            <el-button v-if="scope.row.status === '待收货' && scope.row.userId === user.id" size="mini" type="primary" plain @click="showReceiveDialog(scope.row)">收货</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -128,9 +129,43 @@
       </div>
     </el-dialog>
 
+    <!-- 发货对话框 -->
+    <el-dialog title="发货信息" :visible.sync="deliveryVisible" width="40%" :close-on-click-modal="false">
+      <el-form :model="deliveryForm" label-width="100px">
+        <el-form-item label="物流公司">
+          <el-select v-model="deliveryForm.logisticscompanies" style="width: 100%" placeholder="请选择物流公司">
+            <el-option v-for="item in logisticsCompanies" :key="item.id" :label="item.logisticsname" :value="item.logisticsname"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="deliveryVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmDelivery">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 收货评分对话框 -->
+    <el-dialog title="物流服务评分" :visible.sync="receiveVisible" width="40%" :close-on-click-modal="false">
+      <el-form :model="receiveForm" label-width="100px">
+        <el-form-item label="物流评分">
+          <el-rate
+              v-model="receiveForm.score"
+              :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+              :max="5"
+              show-text
+              :texts="['很差', '较差', '一般', '较好', '很好']">
+          </el-rate>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="receiveVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmReceive">确 定</el-button>
+      </div>
+    </el-dialog>
 
   </div>
 </template>
+
 <script>
 export default {
   name: "Orders",
@@ -149,15 +184,92 @@ export default {
       ids: [],
       goodsName: null,
       orderNo: null,
-      status: null
+      status: null,
+      // 发货相关
+      deliveryVisible: false,
+      deliveryForm: {
+        logisticscompanies: '',
+        trackingNumber: ''
+      },
+      logisticsCompanies: [],
+      currentOrder: null,
+      // 收货相关
+      receiveVisible: false,
+      receiveForm: {
+        score: 3 // 默认3分
+      }
     }
   },
   created() {
     this.load(1)
+    this.loadLogisticsCompanies()
   },
   methods: {
     pay(orderNo) {
       window.open('http://localhost:9090/alipay/pay?orderNo=' + orderNo)
+    },
+    showDeliveryDialog(row) {
+      this.currentOrder = row
+      this.deliveryForm = {
+        logisticscompanies: '',
+        trackingNumber: ''
+      }
+      this.deliveryVisible = true
+    },
+    showReceiveDialog(row) {
+      this.currentOrder = row
+      this.receiveForm = {
+        score: 3 // 重置为默认3分
+      }
+      this.receiveVisible = true
+    },
+    confirmDelivery() {
+      if (!this.deliveryForm.logisticscompanies) {
+        this.$message.warning('请选择物流公司')
+        return
+      }
+
+      this.form = JSON.parse(JSON.stringify(this.currentOrder))
+      this.form.status = '待揽收'
+      this.form.logisticscompanies = this.deliveryForm.logisticscompanies
+      this.form.trackingNumber = this.deliveryForm.trackingNumber
+
+      this.$request.put('/orders/update', this.form).then(res => {
+        if (res.code === '200') {  // 表示成功保存
+          this.$message.success('操作成功')
+          this.load(1)
+          this.deliveryVisible = false
+        } else {
+          this.$message.error(res.msg)  // 弹出错误的信息
+        }
+      })
+    },
+    confirmReceive() {
+      if (!this.receiveForm.score || this.receiveForm.score < 1 || this.receiveForm.score > 5) {
+        this.$message.warning('请给物流服务评分(1-5分)')
+        return
+      }
+
+      this.form = JSON.parse(JSON.stringify(this.currentOrder))
+      this.form.status = '已完成'
+      this.form.score = this.receiveForm.score
+
+      this.$request.put('/orders/update', this.form).then(res => {
+        if (res.code === '200') {  // 表示成功保存
+          this.$message.success('收货成功')
+          this.load(1)
+          this.receiveVisible = false
+        } else {
+          this.$message.error(res.msg)  // 弹出错误的信息
+        }
+      })
+    },
+    loadLogisticsCompanies() {
+      this.$request.get('/logisticscompanies/selectAll').then(res => {
+        if (res.code === '200') {
+          this.logisticsCompanies = res.data
+        }
+      })
     },
     changeStatus(row, status) {
       this.$confirm('您确认操作吗？', '确认操作', {type: "warning"}).then(response => {

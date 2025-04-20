@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.LogisticscompaniesMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.entity.Logisticscompanies">
+            <id property="id" column="id" />
+            <result property="logisticsname" column="LogisticsName" />
+            <result property="servicefrequency" column="ServiceFrequency" />
+            <result property="score" column="Score" />
+            <result property="createtime" column="createtime" />
+            <result property="status" column="status" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,LogisticsName,ServiceFrequency,Score,createtime,status
+    </sql>
+    <insert id="insert">
+        insert into logisticscompanies (
+        <if test="id != null">id,</if>
+        <if test="logisticsname != null and logisticsname != ''">LogisticsName,</if>
+        <if test="servicefrequency != null">ServiceFrequency,</if>
+        <if test="score != null">Score,</if>
+        <if test="createtime != null">createtime,</if>
+        <if test="status != null">status</if>
+        )
+        values (
+        <if test="id!= null">#{id},</if>
+                <if test="logisticsname != null and logisticsname != ''">#{logisticsname},</if>
+                <if test="servicefrequency != null">#{servicefrequency},</if>
+                <if test="score != null">#{score},</if>
+                <if test="createtime != null">#{createtime},</if>
+                <if test="status != null">#{status}</if>
+        )
+    </insert>
+    <update id="updateById">
+        update logisticscompanies
+        <set>
+            <if test="id != null">id = #{id},</if>
+            <if test="logisticsname != null and logisticsname != ''">LogisticsName = #{logisticsname},</if>
+            <if test="servicefrequency != null">ServiceFrequency = #{servicefrequency},</if>
+            <if test="score != null">Score = #{score},</if>
+            <if test="createtime != null">createtime = #{createtime},</if>
+            <if test="status != null">status = #{status}</if>
+        </set>
+        where id = #{id}
+    </update>
+    <select id="selectAll" resultType="com.example.entity.Logisticscompanies">
+        select
+        <include refid="Base_Column_List" />
+        from logisticscompanies
+
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="logisticsname != null and logisticsname != ''">
+                and LogisticsName = #{logisticsname}
+            </if>
+            <if test="servicefrequency != null">
+                and ServiceFrequency = #{servicefrequency}
+            </if>
+            <if test="createtime != null">
+                and createtime = #{createtime}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+</mapper>

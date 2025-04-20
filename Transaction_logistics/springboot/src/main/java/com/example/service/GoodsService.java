@@ -126,4 +126,8 @@ public class GoodsService {
     public void updateReadCount(Integer id) {
         goodsMapper.updateReadCount(id);
     }
+
+    public void updateById_send(Goods id) {
+
+    }
 }

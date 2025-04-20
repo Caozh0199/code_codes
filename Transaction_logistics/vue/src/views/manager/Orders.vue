@@ -47,6 +47,7 @@
             <el-tag type="primary" v-if="scope.row.status === '待发货'">待发货</el-tag>
             <el-tag type="info" v-if="scope.row.status === '待收货'">待收货</el-tag>
             <el-tag type="success" v-if="scope.row.status === '已完成'">已完成</el-tag>
+            <el-tag type="success" v-if="scope.row.status === '待揽收'">待揽收</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="saleName" label="卖家名称"></el-table-column>

@@ -9,6 +9,7 @@ import com.example.entity.Account;
 import com.example.exception.CustomException;
 import com.example.service.AdminService;
 import com.example.service.UserService;
+import com.example.service.WarehouseadminService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -24,6 +25,9 @@ public class WebController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private WarehouseadminService warehouseAdminService;
 
     @GetMapping("/")
     public Result hello() {
@@ -46,6 +50,8 @@ public class WebController {
             account = adminService.login(account);
         } else if (RoleEnum.USER.name().equals(account.getRole())) {
             account = userService.login(account);
+        } else if (RoleEnum.WAREHOUSEADMIN.name().equals(account.getRole())) {
+            account = warehouseAdminService.login(account);
         } else {
             throw new CustomException(ResultCodeEnum.PARAM_LOST_ERROR);
         }

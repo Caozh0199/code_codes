@@ -3,6 +3,7 @@ package com.example.controller;
 import cn.hutool.core.lang.Dict;
 import com.example.common.Result;
 import com.example.entity.Orders;
+import com.example.entity.OrdersDTO;
 import com.example.service.OrdersService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
@@ -112,5 +113,39 @@ public class OrdersController {
         List<Dict> dictList = ordersService.selectBar();
         return Result.success(dictList);
     }
+
+
+    /**
+     * 发货查询
+     */
+
+    /**
+     * 分页查询
+     */
+    @GetMapping("/selectPageSend")
+    public Result selectPageSend(Orders orders,
+                             @RequestParam(defaultValue = "1") Integer pageNum,
+                             @RequestParam(defaultValue = "10") Integer pageSize) {
+        orders.setStatus("待揽收");
+        PageInfo<Orders> page = ordersService.selectPage(orders, pageNum, pageSize);
+        return Result.success(page);
+    }
+
+
+
+    /**
+     * 修改
+     */
+    @PutMapping("/updateSend")
+    public Result updateByIdSend(@RequestBody Orders orders) {
+        orders.setStatus("待收货");
+        ordersService.updateByIdSend(orders);
+        return Result.success();
+    }
+
+
+
+
+
 
 }
