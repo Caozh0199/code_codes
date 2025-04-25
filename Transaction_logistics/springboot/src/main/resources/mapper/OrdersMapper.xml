@@ -119,6 +119,9 @@
             <if test="logisticscompanies != null">
                 logisticscompanies = #{logisticscompanies},
             </if>
+            <if test="trackingNumber != null">
+                trackingNumber = #{trackingNumber},
+            </if>
         </set>
         where id = #{id}
     </update>

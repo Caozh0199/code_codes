@@ -96,6 +96,24 @@ public class OrdersService {
             logisticscompanies.setServicefrequency(servicefrequency);
             logisticscompaniesService.updateById(logisticscompanies);
         }
+        Random random = new Random();
+        int number = random.nextInt(41) + 80;
+        int numbers = random.nextInt(21) + 40;
+        String a = String.valueOf(number);
+        String b = String.valueOf(numbers);
+        a= a+".272955";
+        b=b+".705404";
+        Logistics logistics = new Logistics();
+        logistics.setSender(orders.getUser());
+        //随机生成15位的物流单号给
+        String trackingNumber = RandomUtil.randomNumbers(15);
+        logistics.setTrackingNumber(trackingNumber);
+        logistics.setStatus(orders.getStatus());
+        logistics.setShippingTime(String.valueOf(LocalDateTimeUtil.now()));
+        logistics.setLongitude(a);
+        logistics.setLatitude(b);
+        logisticsService.add(logistics);
+        orders.setTrackingNumber(trackingNumber);
         ordersMapper.updateById(orders);
     }
 

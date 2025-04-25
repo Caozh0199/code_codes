@@ -25,7 +25,14 @@ public class Orders implements Serializable {
     private String payNo;
     /** 支付时间 */
     private String payTime;
+    private String trackingNumber;
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
 
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
+    }
     public int getScore() {
         return score;
     }
