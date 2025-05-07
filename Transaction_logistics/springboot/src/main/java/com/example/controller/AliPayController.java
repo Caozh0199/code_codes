@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONObject;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
@@ -72,6 +74,17 @@ public class AliPayController {
         httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
         httpResponse.getWriter().flush();
         httpResponse.getWriter().close();
+
+        Orders orders1 = new Orders();
+        String payNo = "";
+        //生成15位支付单号95588开头赋值给payNo
+        payNo = "95588" + RandomUtil.randomNumbers(10);
+        orders1.setPayNo(payNo);
+        orders1.setPayTime(String.valueOf(DateTime.now()));
+        orders1.setStatus("已完成");
+        ordersService.updateById(orders);
+
+
     }
 
     @PostMapping("/notify")  // 注意这里必须是POST接口
