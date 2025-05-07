@@ -379,3 +379,7 @@ INSERT INTO `user` VALUES (6, 'cjq', '123', 'cjq', 'http://localhost:9090/files/
 INSERT INTO `user` VALUES (7, 'ylj', '123', 'ylj', 'http://localhost:9090/files/1745077731135-Naraka 2022_4_15 22_45_12.png', 'USER', NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+
+
+select * from orders where status in ('待支付','已支付')
